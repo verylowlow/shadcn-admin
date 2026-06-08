@@ -1,0 +1,1 @@
+var e=[`education`,`medical`,`delivery`,`media`,`custom`];export{e as t};

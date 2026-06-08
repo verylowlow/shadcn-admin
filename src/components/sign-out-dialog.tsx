@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from '@tanstack/react-router'
-import { useAuthStore } from '@/stores/auth-store'
+import { useNccAuthStore } from '@/stores/ncc-auth-store'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 
 interface SignOutDialogProps {
@@ -10,11 +10,10 @@ interface SignOutDialogProps {
 export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
   const navigate = useNavigate()
   const location = useLocation()
-  const { auth } = useAuthStore()
+  const logout = useNccAuthStore((s) => s.logout)
 
   const handleSignOut = () => {
-    auth.reset()
-    // Preserve current location for redirect after sign-in
+    logout()
     const currentPath = location.href
     navigate({
       to: '/sign-in',
@@ -27,9 +26,9 @@ export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
     <ConfirmDialog
       open={open}
       onOpenChange={onOpenChange}
-      title='Sign out'
-      desc='Are you sure you want to sign out? You will need to sign in again to access your account.'
-      confirmText='Sign out'
+      title='退出登录'
+      desc='确定要退出登录吗？再次访问管理端需要重新登录。'
+      confirmText='退出登录'
       destructive
       handleConfirm={handleSignOut}
       className='sm:max-w-sm'

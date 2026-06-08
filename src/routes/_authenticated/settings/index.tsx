@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { SettingsProfile } from '@/features/settings/profile'
+import { NccSettings } from '@/features/ncc-settings'
 
 export const Route = createFileRoute('/_authenticated/settings/')({
-  component: SettingsProfile,
+  component: NccSettings,
 })

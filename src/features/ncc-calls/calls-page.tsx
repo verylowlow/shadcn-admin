@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/ncc/page-header";
 import { ErrorState, TableSkeleton } from "@/components/ncc/loading-state";
 import { StatusBadge } from "@/components/ncc/status-badge";
 import { useCallsList } from "@/lib/queries";
+import { formatDateTime } from "@/lib/call-format";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -136,7 +137,9 @@ export default function CallsPage() {
                           />
                         </TableCell>
                         <TableCell className="hidden text-muted-foreground md:table-cell">
-                          {call.started_at_display}
+                          {formatDateTime(call.started_at) ||
+                            call.started_at_display ||
+                            "—"}
                         </TableCell>
                         <TableCell className="text-right tabular-nums text-muted-foreground">
                           {call.duration_display}

@@ -167,6 +167,8 @@ export type InboundSettings = {
   inbound_auto_answer: boolean;
   inbound_policy: InboundPolicy;
   inbound_allowlist_contact_only: boolean;
+  /** Read-only in UI: customer background preheat + post-call summary writeback */
+  inbound_context_preheat_enabled: boolean;
   inbound_default_agent_profile_alias: string;
   inbound_opening_script: string;
   inbound_default_system_prompt: string;
@@ -239,6 +241,7 @@ export type CallRow = {
   peer_display: string;
   status: string;
   status_label: string;
+  started_at?: string | null;
   started_at_display: string;
   duration_display: string;
   duration_seconds: number | null;

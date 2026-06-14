@@ -19,6 +19,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { CAMPAIGN_STATUS_LABELS } from "@/lib/constants";
+import { formatDateTime } from "@/lib/call-format";
 import { useCampaigns } from "@/lib/queries";
 import { CampaignStatusBadge } from "@/lib/status-badges";
 import type { CampaignStatus } from "@/types/api";
@@ -127,9 +128,7 @@ export default function CampaignsPage() {
                     {total > 0 ? `${done}/${total}` : "—"}
                   </TableCell>
                   <TableCell className="text-muted-foreground">
-                    {c.created_at
-                      ? new Date(c.created_at).toLocaleString("zh-CN")
-                      : "—"}
+                    {formatDateTime(c.created_at)}
                   </TableCell>
                   <TableCell className="text-right">
                     <Button variant="outline" size="sm" asChild>

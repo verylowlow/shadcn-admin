@@ -85,6 +85,31 @@ export default function InboundSettingsPage() {
       <form onSubmit={handleSave} className="space-y-6">
         <Card>
           <CardHeader>
+            <CardTitle>来电预热</CardTitle>
+            <CardDescription>
+              按来电号码加载客户备注与历史摘要；当前设备不支持真实来电显示，功能已关闭
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <Label>客户背景预热</Label>
+                <p className="text-xs text-muted-foreground">
+                  关闭时不加载客户信息、不写回通话摘要；Wiki 与引擎预热不受影响。
+                  可通过环境变量 NEWCALLCALL_INBOUND_CONTEXT_PREHEAT_ENABLED 开启。
+                </p>
+              </div>
+              <Switch
+                checked={form.inbound_context_preheat_enabled ?? false}
+                disabled
+                aria-readonly
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
             <CardTitle>接听策略</CardTitle>
             <CardDescription>控制是否自动接听及来电白名单</CardDescription>
           </CardHeader>

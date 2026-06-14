@@ -34,10 +34,18 @@ const ROLE_LABELS: Record<string, string> = {
   assistant: "客服",
 };
 
+/** Parse API timestamps; naive ISO strings are treated as UTC. */
+export function parseApiDateTime(iso: string | null | undefined): Date | null {
+  if (!iso) return null;
+  const normalized = /[zZ]|[+-]\d{2}:\d{2}$/.test(iso) ? iso : `${iso}Z`;
+  const d = new Date(normalized);
+  if (Number.isNaN(d.getTime())) return null;
+  return d;
+}
+
 export function formatDateTime(iso: string | null | undefined): string {
-  if (!iso) return "—";
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return iso;
+  const d = parseApiDateTime(iso);
+  if (!d) return iso ? iso : "—";
   return d.toLocaleString("zh-CN", {
     year: "numeric",
     month: "2-digit",
@@ -50,9 +58,8 @@ export function formatDateTime(iso: string | null | undefined): string {
 }
 
 export function formatTime(iso: string | null | undefined): string {
-  if (!iso) return "";
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return "";
+  const d = parseApiDateTime(iso);
+  if (!d) return "";
   return d.toLocaleTimeString("zh-CN", { hour12: false });
 }
 
@@ -62,10 +69,10 @@ export function formatDuration(
   answeredAt?: string | null,
 ): string {
   if (!startedAt || !endedAt) return "—";
-  const start = new Date(answeredAt || startedAt).getTime();
-  const end = new Date(endedAt).getTime();
-  if (Number.isNaN(start) || Number.isNaN(end)) return "—";
-  const seconds = Math.max(0, Math.floor((end - start) / 1000));
+  const start = parseApiDateTime(answeredAt || startedAt);
+  const end = parseApiDateTime(endedAt);
+  if (!start || !end) return "—";
+  const seconds = Math.max(0, Math.floor((end.getTime() - start.getTime()) / 1000));
   const m = Math.floor(seconds / 60);
   const s = seconds % 60;
   if (m > 0) return `${m}分${s}秒`;
